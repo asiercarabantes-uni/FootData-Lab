@@ -24,14 +24,44 @@
                             Leagues
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/laliga-easports.html')"><img src="img/spain.png" class="me-2" width="18"> EA Sports</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/laliga-easports.html')"><img src="img/spain.png" class="me-2" width="18"> LaLiga Hypermotion</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/premier-league.html')"><img src="img/england.png" class="me-2" width="18"> Premier League</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/serie-a.html')"><img src="img/italy.png" class="me-2" width="18"> Serie A</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/bundesliga.html')"><img src="img/germany.png" class="me-2" width="18"> Bundesliga</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/ligue1.html')"><img src="img/france.png" class="me-2" width="18"> Ligue 1</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="loadContent('data/champions-league.html')"> <img src="img/champions-league.png" class="me-2" width="18"> Champions League</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/laliga-easports.html')">
+                                    <img src="img/spain.png" class="me-2" width="18" alt=""> LaLiga EA Sports
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/laliga-hypermotion.html')">
+                                    <img src="img/spain.png" class="me-2" width="18"> LaLiga Hypermotion
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/premier-league.html')">
+                                    <img src="img/england.png" class="me-2" width="18"> Premier League
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/serie-a.html')">
+                                    <img src="img/italy.png" class="me-2" width="18"> Serie A
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/bundesliga.html')">
+                                    <img src="img/germany.png" class="me-2" width="18"> Bundesliga
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/ligue1.html')">
+                                    <img src="img/france.png" class="me-2" width="18"> Ligue 1
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="loadContent('data/champions-league.html')">
+                                    <img src="img/champions-league.png" class="me-2" width="18"> Champions League
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -44,23 +74,20 @@
     </nav>
 
     <!-- Content -->
-
-    <div id="content" class="container mt-5 pt-3 mb-5">
-        
-    </div>
+    <div id="content" class="container mt-5 pt-3 mb-5"></div>
 
     <!-- Footer -->
-    <footer class="bg-light text-dark py-3 fixed-bottom">
+    <footer class="bg-light text-dark fixed-bottom p-1">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
                 <h5>About us</h5>
-                <p>Información breve sobre la empresa.</p>
+                <p>Brief information about the company.</p>
             </div>
             <div class="col-md-4">
                 <h5>Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-dark">Home</a></li>
+                    <li><a href="#" class="text-dark" onclick="listTeams('en.1', '2025-26')">Home</a></li>
                     <li><a href="#" class="text-dark">Leagues</a></li>
                     <li><a href="#" class="text-dark">Champions League</a></li>
                 </ul>
@@ -77,8 +104,6 @@
         </div>
     </div>
     </footer>
-
-
 </body>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/javascript.js"></script>
