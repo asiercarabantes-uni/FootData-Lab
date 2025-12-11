@@ -1,4 +1,9 @@
 
+// leagues
+const leagues = ['es.1', 'es.2', 'en.1', 'it.1', 'de.1', 'fr.1', 'uefa.cl']
+// seasons
+const seasons = ['2010-11', '2011-12', '2012-13', '2013-14', '2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25']
+
 // load the content dynamically
 function loadContent(url) {
     fetch(url)
@@ -10,8 +15,8 @@ function loadContent(url) {
 }
 
 // lists the teams of each league
-function listTeams(league, year) {
-    const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${year}/${league}.json`;
+function listTeams(league, season) {
+    const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
     
     fetch(url)
     .then(response => response.json())
