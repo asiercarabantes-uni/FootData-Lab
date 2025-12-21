@@ -8,7 +8,7 @@
 </head>
 <body class="d-flex flex-column">
     <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg bg-[#1F3B6F] fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color:#477fe8;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FootData-Lab</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" onclick="loadContent('data/home.html')">Home</a>
+                        <a class="nav-link active" aria-current="page" href="home.html">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -25,32 +25,32 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/laliga-easports.html')">
+                                <a class="dropdown-item" href="data/laliga-easports.html">
                                     <img src="img/spain.png" class="me-2" width="18" alt=""> LaLiga EA Sports
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/laliga-hypermotion.html')">
+                                <a class="dropdown-item" href="data/laliga-hypermotion.html">
                                     <img src="img/spain.png" class="me-2" width="18"> LaLiga Hypermotion
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/premier-league.html')">
+                                <a class="dropdown-item" href="data/premier-league.html">
                                     <img src="img/england.png" class="me-2" width="18"> Premier League
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/serie-a.html')">
+                                <a class="dropdown-item" href="data/serie-a.html">
                                     <img src="img/italy.png" class="me-2" width="18"> Serie A
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/bundesliga.html')">
+                                <a class="dropdown-item" href="data/bundesliga.html">
                                     <img src="img/germany.png" class="me-2" width="18"> Bundesliga
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/ligue1.html')">
+                                <a class="dropdown-item" href="data/ligue1.html">
                                     <img src="img/france.png" class="me-2" width="18"> Ligue 1
                                 </a>
                             </li>
@@ -58,7 +58,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="loadContent('data/champions-league.html')">
+                                <a class="dropdown-item" href="data/champions-league.html">
                                     <img src="img/champions-league.png" class="me-2" width="18"> Champions League
                                 </a>
                             </li>
@@ -74,7 +74,7 @@
     </nav>
 
     <!-- Content -->
-    <div id="content" class="container mt-5 pt-3 mb-5"></div>
+    <div id="content" class="container-fluid bg-light" style="padding-top: 80px; padding-bottom: 80px;"></div>
 
     <!-- Footer -->
     <footer class="bg-light text-dark fixed-bottom p-1">
@@ -87,7 +87,7 @@
             <div class="col-md-4">
                 <h5>Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-dark" onclick="listTeams('en.1', '2025-26')">Home</a></li>
+                    <li><a href="#" class="text-dark">Home</a></li>
                     <li><a href="#" class="text-dark">Leagues</a></li>
                     <li><a href="#" class="text-dark">Champions League</a></li>
                 </ul>
@@ -104,7 +104,8 @@
         </div>
     </div>
     </footer>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/javascript.js"></script>    
 </body>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/javascript.js"></script>
 </html>
