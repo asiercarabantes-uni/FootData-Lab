@@ -65,13 +65,61 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
+
+    <!-- Content -->
+    <div id="content" class="container-fluid bg-light" style="padding-top: 80px; padding-bottom: 80px;">
+        <div class="heading d-flex gap-3">
+            <img src="../img/laliga-hypermotion.png" alt="" class="border rounded-4">
+            <div class="heading_title">
+                <div class="heading_name fs-1">LaLiga Hypermotion</div>
+                <div class="heading_info" id="seasonName">2025-26</div>
+            </div>
+        </div>
+
+        <div class="seasons mb-3 mt-3 fs-5">
+            Seasons
+            <nav aria-label="Seasons pagination" class="mt-1">
+                <ul class="pagination" id="seasonPagination"></ul>
+            </nav>
+        </div>
+        
+        <div id="seasonContent">
+            <p>Season content will load here.</p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-dark fixed-bottom p-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>About us</h5>
+                <p>Brief information about the company.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark">Home</a></li>
+                    <li><a href="#" class="text-dark">Leagues</a></li>
+                    <li><a href="#" class="text-dark">Champions League</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Community</h5>
+                <a href="#" class="text-dark me-2">Issues</a>
+                <a href="#" class="text-dark me-2">Discussions</a>
+                <a href="#" class="text-dark">Corporate sponsors</a>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            &copy; 2026 FootData-Lab
+        </div>
+    </div>
+    </footer>
     
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/javascript.js"></script>

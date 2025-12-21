@@ -2,7 +2,17 @@
 // leagues
 const leagues = ['es.1', 'es.2', 'en.1', 'it.1', 'de.1', 'fr.1', 'uefa.cl']
 // seasons
-const seasons = ['2010-11', '2011-12', '2012-13', '2013-14', '2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25']
+const seasons = ['2025-26', '2024-25', '2023-24', '2022-23',
+  '2021-22', '2020-21', '2019-20', '2018-19',
+  '2017-18', '2016-17', '2015-16', '2014-15',
+  '2013-14', '2012-13', '2011-12', '2010-11'];
+
+let currentIndex = 0; // index of the first visible button
+const pageSize = 5; // show five seasons in a row
+
+const seasonPagination = document.getElementById("seasonPagination");
+const seasonName = document.getElementById("seasonName");
+const seasonContent = document.getElementById("seasonContent");
 
 // load the content dynamically (AJAX)
 function loadContent(url) {
@@ -14,7 +24,59 @@ function loadContent(url) {
     .catch(err => console.error('Error loading the content:', err));
 }
 
+// render the season buttons 
+function renderPagination() {
+    seasonPagination.innerHTML = "";
+
+    // create the previous button
+    const prevItem = document.createElement("li");
+    prevItem.className = "page-item" + (currentIndex === 0 ? " disabled" : ""); // guess if the pagination is at the start
+    prevItem.innerHTML = `<a class="page-link" href="#">«</a>`;
+    prevItem.onclick = (e) => {
+        e.preventDefault();
+        if (currentIndex > 0) {
+            currentIndex -= pageSize;
+            renderPagination();
+        }
+    };
+    seasonPagination.appendChild(prevItem);
+
+    // create the season buttons (limit 5)
+    const visibleSeasons = seasons.slice(currentIndex, currentIndex + pageSize); // returns a subarray from start (currentIndex) to end (currentIndex + 5)
+    visibleSeasons.forEach(season => {
+        const li = document.createElement("li");
+        li.className = "page-item";
+        li.innerHTML = `<a class="page-link" href="#">${season}</a>`;
+        li.onclick = (e) => {
+            e.preventDefault();
+            loadSeason(season);
+        };
+        seasonPagination.appendChild(li);
+    });
+
+    // create the next button
+    const nextItem = document.createElement("li");
+    nextItem.className = "page-item" + (currentIndex + pageSize >= seasons.length ? " disabled" : ""); // guess if the pagination is at the end
+    nextItem.innerHTML = `<a class="page-link" href="#">»</a>`;
+    nextItem.onclick = (e) => {
+        e.preventDefault();
+        if (currentIndex + pageSize < seasons.length) {
+            currentIndex += pageSize;
+            renderPagination();
+        }
+    };
+    seasonPagination.appendChild(nextItem);
+}
+
 // ---------- for each season ----------
+
+function loadSeason(season) {
+    seasonName.textContent = season;
+    seasonContent.innerHTML = `<p>Content for season <strong>${season}</strong> goes here.</p>`;
+}
+
+renderPagination();
+loadSeason(seasons[0]);
 
 // lists the teams of each league
 async function getTeams(league, season) {
