@@ -1,1 +1,119 @@
-<h1>This is LaLiga page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <title>LaLiga EASports - FootData-Lab</title>
+</head>
+<body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color:#477fe8;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FootData-Lab</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Leagues
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="laliga-easports.html">
+                                    <img src="../img/spain.png" class="me-2" width="18" alt=""> LaLiga EA Sports
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="laliga-hypermotion.html">
+                                    <img src="../img/spain.png" class="me-2" width="18"> LaLiga Hypermotion
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="premier-league.html">
+                                    <img src="../img/england.png" class="me-2" width="18"> Premier League
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="serie-a.html">
+                                    <img src="../img/italy.png" class="me-2" width="18"> Serie A
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="bundesliga.html">
+                                    <img src="../img/germany.png" class="me-2" width="18"> Bundesliga
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="ligue1.html">
+                                    <img src="../img/france.png" class="me-2" width="18"> Ligue 1
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="data/champions-league.html">
+                                    <img src="../img/champions-league.png" class="me-2" width="18"> Champions League
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div id="content" class="container-fluid bg-light" style="padding-top: 80px; padding-bottom: 180px;">
+        <div class="heading d-flex gap-3">
+            <img src="../img/laliga-easports.png" style="width: 100px; height:100px" alt="" class="border rounded-4">
+            <div class="heading_title">
+                <div class="heading_name fs-1">LaLiga EASports</div>
+                <div class="heading_info" id="seasonName">2025-26</div>
+            </div>
+        </div>
+
+        <div id="league_table" class="container"></div>
+
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-dark fixed-bottom p-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>About us</h5>
+                <p>Brief information about the company.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark">Home</a></li>
+                    <li><a href="#" class="text-dark">Leagues</a></li>
+                    <li><a href="#" class="text-dark">Champions League</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Community</h5>
+                <a href="#" class="text-dark me-2">Issues</a>
+                <a href="#" class="text-dark me-2">Discussions</a>
+                <a href="#" class="text-dark">Corporate sponsors</a>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            &copy; 2026 FootData-Lab
+        </div>
+    </div>
+    </footer>
+    
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/javascript.js"></script>
+</body>
+</html>

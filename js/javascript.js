@@ -249,4 +249,47 @@ async function getLeagueTable(league, season) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2023-24'));
+function renderTable(table) {
+    const container = document.getElementById("league_table");
+
+    const html = `
+        <table class="table table-hover table-bordered table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Pos</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Pl</th>
+                    <th scope="col">W</th>
+                    <th scope="col">D</th>
+                    <th scope="col">L</th>
+                    <th scope="col">GF</th>
+                    <th scope="col">GA</th>
+                    <th scope="col">GD</th>
+                    <th scope="col">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${table.map((team, index) => `
+                    <tr>
+                        <th scope="row">${index + 1}</th>
+                        <td>${team.name}</td>
+                        <td>${team.played}</td>
+                        <td>${team.wins}</td>
+                        <td>${team.draws}</td>
+                        <td>${team.losses}</td>
+                        <td>${team.goalsFor}</td>
+                        <td>${team.goalsAgainst}</td>
+                        <td>${team.goalDiff}</td>
+                        <td>${team.points}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+    container.innerHTML = html;
+}
+
+document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2023-24').then(table => {
+    renderTable(table);
+}));
