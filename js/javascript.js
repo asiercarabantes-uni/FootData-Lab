@@ -24,6 +24,7 @@ function loadContent(url) {
     .catch(err => console.error('Error loading the content:', err));
 }
 
+/*
 // render the season buttons 
 function renderPagination() {
     seasonPagination.innerHTML = "";
@@ -68,6 +69,8 @@ function renderPagination() {
     seasonPagination.appendChild(nextItem);
 }
 
+*/
+
 // ---------- for each season ----------
 
 function loadSeason(season) {
@@ -75,8 +78,8 @@ function loadSeason(season) {
     seasonContent.innerHTML = `<p>Content for season <strong>${season}</strong> goes here.</p>`;
 }
 
-renderPagination();
-loadSeason(seasons[0]);
+//renderPagination();
+//loadSeason(seasons[0]);
 
 // lists the teams of each league
 async function getTeams(league, season) {
@@ -146,12 +149,104 @@ async function getPoints(league, season) {
 
 document.addEventListener("DOMContentLoaded", getPoints('es.1', '2024-25'))
 
-// goals for, goals against and goal difference per team
-function getGoals()  {
+// get the ranking
+async function getLeagueTable(league, season) {
+    const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
 
+    try {
+        const res = await(fetch(url))
+        const data = await(res.json())
+        
+        const matches = data.matches;
+        console.log(matches)
+        const teams = {};
+
+        // create an object per team
+        matches.forEach(match => {
+            if ((match.round === "1.Round") || (match.round === "Matchday 1")) { // (loop once per league (round 1 / matchday 1) is enough)
+                teams[match.team1] = {
+                    name: match.team1,
+                    played: 0,
+                    wins: 0,
+                    draws: 0,
+                    losses: 0,
+                    goalsFor: 0,
+                    goalsAgainst: 0,
+                    goalDiff: 0,
+                    points: 0
+                };
+
+                teams[match.team2] = {
+                    name: match.team2,
+                    played: 0,
+                    wins: 0,
+                    draws: 0,
+                    losses: 0,
+                    goalsFor: 0,
+                    goalsAgainst: 0,
+                    goalDiff: 0,
+                    points: 0
+                };
+            }   
+        });
+
+        // get stats
+        matches.forEach(match => {
+            if (!match.score.ft) return; // if the match has not been played yet...
+
+            // get the final score
+            const g1 = match.score.ft[0];
+            const g2 = match.score.ft[1];
+
+            // get the teams
+            const t1 = teams[match.team1];
+            const t2 = teams[match.team2];
+
+            // update matches played
+            t1.played++;
+            t2.played++;
+
+            // update goals for and goals against
+            t1.goalsFor += g1;
+            t1.goalsAgainst += g2;
+            t2.goalsFor += g2;
+            t2.goalsAgainst += g1;
+
+            // update wins, losses, draws and poins
+            if (g1 > g2) {
+                t1.wins++;
+                t1.points += 3;
+                t2.losses++;
+            } else if (g2 > g1) {
+                t2.wins++;
+                t2.points += 3;
+                t1.losses++;
+            } else {
+                t1.draws++;
+                t2.draws++;
+
+                t1.points++;
+                t2.points++;
+            }
+
+            // update difference of goals
+            t1.goalDiff = t1.goalsFor - t1.goalsAgainst;
+            t2.goalDiff = t2.goalsFor - t2.goalsAgainst;
+        });
+
+        // convert to an array and order
+        const table = Object.values(teams).sort((a, b) => {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
+            return b.goalsFor - a.goalsFor;
+        });
+
+        console.log(table);
+        return table;
+
+    } catch (err) {
+        console.error("Error loading stats: ", err)
+    }
 }
 
-// wins, draws and losses per team
-function getWDL() {
-
-}
+document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2023-24'));
