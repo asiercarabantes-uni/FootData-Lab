@@ -253,7 +253,7 @@ function renderTable(table) {
     const container = document.getElementById("league_table");
 
     const html = `
-        <table class="table table-hover table-bordered table-sm">
+        <table class="table table-hover" >
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Pos</th>
@@ -290,6 +290,28 @@ function renderTable(table) {
     container.innerHTML = html;
 }
 
-document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2023-24').then(table => {
+
+document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2025-26').then(table => {
     renderTable(table);
 }));
+
+
+const container = document.getElementById("seasonContainer");
+
+for (const season of seasons) {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-outline-primary btn-sm';
+    btn.textContent = season;
+
+    btn.onclick = () => {
+        document.querySelectorAll('#seasonContainer .btn').forEach(b => b.classList.remove('btn-primary'));
+        document.querySelectorAll('#seasonContainer .btn').forEach(b => b.classList.add('btn-outline-primary'));
+
+        btn.classList.remove('btn-outline-primary');
+        btn.classList.add('btn-primary');
+
+        loadSeason(season);
+    }
+
+    container.appendChild(btn);
+}
