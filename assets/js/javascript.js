@@ -1,11 +1,10 @@
 
 // leagues
-const leagues = ['es.1', 'es.2', 'en.1', 'it.1', 'de.1', 'fr.1', 'uefa.cl']
+const leagues = ['es.1', 'es.2', 'en.1', 'it.1', 'de.1', 'fr.1']
 // seasons
 const seasons = ['2025-26', '2024-25', '2023-24', '2022-23',
   '2021-22', '2020-21', '2019-20', '2018-19',
-  '2017-18', '2016-17', '2015-16', '2014-15',
-  '2013-14', '2012-13', '2011-12', '2010-11'];
+  '2017-18', '2016-17', '2015-16', '2014-15'];
 
 let currentIndex = 0; // index of the first visible button
 const pageSize = 5; // show five seasons in a row
@@ -291,27 +290,96 @@ function renderTable(table) {
 }
 
 
-document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2025-26').then(table => {
-    renderTable(table);
-}));
+// document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2025-26').then(table => {
+//     renderTable(table);
+// }));
 
+async function loadAllTeams() {
+    const teamsSet = new Set();
 
-const container = document.getElementById("seasonContainer");
+    for (const season of seasons) {
+        for (const league of leagues) {
+            const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
 
-for (const season of seasons) {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-outline-primary btn-sm';
-    btn.textContent = season;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    console.warn(`Skipped ${season} ${league} (file not found)`);
+                    continue;
+                }
 
-    btn.onclick = () => {
-        document.querySelectorAll('#seasonContainer .btn').forEach(b => b.classList.remove('btn-primary'));
-        document.querySelectorAll('#seasonContainer .btn').forEach(b => b.classList.add('btn-outline-primary'));
+                const data = await response.json();
 
-        btn.classList.remove('btn-outline-primary');
-        btn.classList.add('btn-primary');
+                const firstRound = data.matches.filter(
+                    match => match.round && (match.round.includes('Matchday 1') || (match.round.includes('1. Round')))
+                );
 
-        loadSeason(season);
+                firstRound.forEach(match => {
+                    teamsSet.add(match.team1);
+                    teamsSet.add(match.team2);
+                });
+            } catch (err) {
+                console.error("Error loading points:", err);
+            }
+        }
     }
-
-    container.appendChild(btn);
+    console.log(teamsSet);
+    return Array.from(teamsSet);
 }
+
+function createTeamCard(teamName) {
+  return `
+    <div class="col-lg-6 col-md-6 mb-4">
+      <div class="course-card">
+
+        <div class="course-image">
+          <img src="assets/img/teams/default.png"
+               alt="${teamName}"
+               class="img-fluid">
+          <div class="course-badge">Team</div>
+        </div>
+
+        <div class="course-content">
+          <div class="course-meta">
+            <span class="category">Football Club</span>
+            <span class="level">Europe</span>
+          </div>
+
+          <h3>${teamName}</h3>
+          <p>
+            Professional football club appearing in European competitions
+            between 2014 and 2026, based on open football data.
+          </p>
+
+          <div class="course-stats">
+            <div class="stat">
+              <i class="bi bi-calendar"></i>
+              <span>2014–2026</span>
+            </div>
+          </div>
+
+          <a href="#" class="btn-course">View Team</a>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+async function renderTeams() {
+  const container = document.getElementById('teams-container');
+
+  // opcional: loader
+  container.innerHTML = '<p>Loading teams...</p>';
+
+  const teams = await loadAllTeams();
+
+  container.innerHTML = '';
+  teams.sort();
+
+  teams.forEach(team => {
+    container.innerHTML += createTeamCard(team);
+  });
+}
+
+renderTeams();
