@@ -221,7 +221,7 @@ function renderTable(table) {
 
 // ---------- load all teams and display it dynamically ----------
 async function loadAllTeams() {
-    const teamsSet = new Set();
+    const teamsMap = new Map();
 
     for (const season of seasons) {
         for (const league of leagues) {
@@ -241,71 +241,215 @@ async function loadAllTeams() {
                 );
 
                 firstRound.forEach(match => {
-                    teamsSet.add(match.team1);
-                    teamsSet.add(match.team2);
+                    const teams = [match.team1, match.team2];
+
+                    teams.forEach(teamName => {
+                        if (!teamsMap.has(teamName)) {
+                        teamsMap.set(teamName, {
+                            name: teamName,
+                            league: leagueMap[league],
+                            leagueCode: league
+                        });
+                        }
+                    });
                 });
             } catch (err) {
                 console.error("Error loading points:", err);
             }
         }
     }
-    console.log(teamsSet);
-    return Array.from(teamsSet);
+    console.log(teamsMap);
+    return Array.from(teamsMap.values());
 }
 
-function createTeamCard(teamName) {
-  return `
+function createTeamCard(team) {
+    return `
     <div class="col-lg-6 col-md-6 mb-4">
-      <div class="course-card">
-
+        <div class="course-card">
         <div class="course-image">
-          <img src="assets/img/teams/default.png"
-               alt="${teamName}"
-               class="img-fluid">
-          <div class="course-badge">Team</div>
+            <img src="assets/img/teams/default.png" class="img-fluid" alt="${team.name}">
         </div>
 
         <div class="course-content">
-          <div class="course-meta">
-            <span class="category">Football Club</span>
+            <div class="course-meta">
+            <span class="category">${team.league}</span>
             <span class="level">Europe</span>
-          </div>
-
-          <h3>${teamName}</h3>
-          <p>
-            Professional football club appearing in European competitions
-            between 2014 and 2026, based on open football data.
-          </p>
-
-          <div class="course-stats">
-            <div class="stat">
-              <i class="bi bi-calendar"></i>
-              <span>2014–2026</span>
             </div>
-          </div>
 
-          <a href="#" class="btn-course">View Team</a>
+            <h3>${team.name}</h3>
+
+            <p>
+            Professional football club competing in ${team.league},
+            based on open football data from 2010 to 2025.
+            </p>
+
+            <a href="#" class="btn-course">View Team</a>
         </div>
-
-      </div>
+        </div>
     </div>
-  `;
+    `;
 }
 
-async function renderTeams() {
-  const container = document.getElementById('teams-container');
+// ---------- make the pagination functional ----------
+const teamsPerPage = 10;
+let currentPage = 1;
+let totalPages = 1;
+let teams = [];
 
-  // opcional: loader
-  container.innerHTML = '<p>Loading teams...</p>';
+async function initTeams() {
+    teams = await loadAllTeams();
 
-  const teams = await loadAllTeams();
+    teams.sort((a, b) => a.name.localeCompare(b.name));
 
-  container.innerHTML = '';
-  teams.sort();
+    filteredTeams = [...teams]; // por defecto todas
+    totalPages = Math.ceil(filteredTeams.length / teamsPerPage);
 
-  teams.forEach(team => {
+    renderPage(1);
+}
+
+function renderPage(pageNumber) {
+    const container = document.getElementById('teams-container');
+    container.innerHTML = '';
+
+    const start = (pageNumber - 1) * teamsPerPage;
+    const end = start + teamsPerPage;
+
+    filteredTeams.slice(start, end).forEach(team => {
     container.innerHTML += createTeamCard(team);
-  });
+    });
+
+    currentPage = pageNumber;
+    totalPages = Math.ceil(filteredTeams.length / teamsPerPage);
+
+    renderPagination();
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 }
 
-renderTeams();
+function renderPagination() {
+    const pagination = document.querySelector('.pagination');
+    pagination.innerHTML = '';
+
+    const delta = 2; // cantidad de páginas a mostrar alrededor de la actual
+    const range = [];
+    const total = totalPages;
+
+    // Siempre incluir 1 y total
+    for (let i = 1; i <= total; i++) {
+    if (i === 1 || i === total || (i >= currentPage - delta && i <= currentPage + delta)) {
+        range.push(i);
+    } else if (range[range.length - 1] !== '...') {
+        range.push('...');
+    }
+    }
+
+    // button back
+    pagination.innerHTML += `
+    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" data-page="${currentPage - 1}">
+        <i class="bi bi-chevron-left"></i>
+        </a>
+    </li>
+    `;
+
+    // page buttons / ...
+    range.forEach(i => {
+    if (i === '...') {
+        pagination.innerHTML += `
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        `;
+    } else {
+        pagination.innerHTML += `
+        <li class="page-item ${i === currentPage ? 'active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">${i}</a>
+        </li>
+        `;
+    }
+    });
+
+    // button next
+    pagination.innerHTML += `
+    <li class="page-item ${currentPage === total ? 'disabled' : ''}">
+        <a class="page-link" href="#" data-page="${currentPage + 1}">
+        <i class="bi bi-chevron-right"></i>
+        </a>
+    </li>
+    `;
+
+    // events
+    document.querySelectorAll('.page-link').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const page = parseInt(e.target.dataset.page);
+        if (!isNaN(page) && page >= 1 && page <= totalPages) renderPage(page);
+    });
+    });
+}
+
+initTeams();
+
+// ---------- teams filters ----------
+
+const leagueMap = {
+  'es.1': 'LaLiga EA Sports',
+  'es.2': 'LaLiga Hypermotion',
+  'en.1': 'Premier League',
+  'it.1': 'Serie A',
+  'de.1': 'Bundesliga',
+  'fr.1': 'Ligue 1'
+};
+
+document.querySelectorAll('.filter-checkbox input')
+    .forEach(cb => cb.addEventListener('change', onFilterChange));
+
+function onFilterChange(e) {
+    const allCheckbox = document.querySelector('input[data-league="all"]');
+    const leagueCheckboxes = Array.from(
+    document.querySelectorAll('.filter-checkbox input:not([data-league="all"])')
+    );
+
+    const checked = document.querySelectorAll('.filter-checkbox input:checked');
+
+    if (checked.length === 0) {
+        e.target.checked = true;
+        return;
+    }
+
+    if (e.target.dataset.league === 'all' && e.target.checked) {
+        leagueCheckboxes.forEach(cb => cb.checked = false);
+    }
+
+    if (e.target.dataset.league !== 'all' && e.target.checked) {
+        allCheckbox.checked = false;
+    }
+
+    const anyLeagueChecked = leagueCheckboxes.some(cb => cb.checked);
+    if (!anyLeagueChecked && !allCheckbox.checked) {
+        allCheckbox.checked = true;
+    }
+
+    applyFilters();
+}
+
+function applyFilters() {
+    const checkedLeagues = Array.from(
+        document.querySelectorAll('.filter-checkbox input:checked')
+    ).map(cb => cb.dataset.league);
+
+    if (checkedLeagues.includes('all')) {
+        filteredTeams = [...teams];
+    } else {
+    filteredTeams = teams.filter(team =>
+        checkedLeagues.includes(team.leagueCode)
+    );
+    }
+
+    currentPage = 1;
+    totalPages = Math.ceil(filteredTeams.length / teamsPerPage);
+    renderPage(1);
+}
+
+
