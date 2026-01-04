@@ -6,81 +6,7 @@ const seasons = ['2025-26', '2024-25', '2023-24', '2022-23',
   '2021-22', '2020-21', '2019-20', '2018-19',
   '2017-18', '2016-17', '2015-16', '2014-15'];
 
-let currentIndex = 0; // index of the first visible button
-const pageSize = 5; // show five seasons in a row
-
-const seasonPagination = document.getElementById("seasonPagination");
-const seasonName = document.getElementById("seasonName");
-const seasonContent = document.getElementById("seasonContent");
-
-// load the content dynamically (AJAX)
-function loadContent(url) {
-    fetch(url)
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('content').innerHTML = html;
-    })
-    .catch(err => console.error('Error loading the content:', err));
-}
-
-/*
-// render the season buttons 
-function renderPagination() {
-    seasonPagination.innerHTML = "";
-
-    // create the previous button
-    const prevItem = document.createElement("li");
-    prevItem.className = "page-item" + (currentIndex === 0 ? " disabled" : ""); // guess if the pagination is at the start
-    prevItem.innerHTML = `<a class="page-link" href="#">«</a>`;
-    prevItem.onclick = (e) => {
-        e.preventDefault();
-        if (currentIndex > 0) {
-            currentIndex -= pageSize;
-            renderPagination();
-        }
-    };
-    seasonPagination.appendChild(prevItem);
-
-    // create the season buttons (limit 5)
-    const visibleSeasons = seasons.slice(currentIndex, currentIndex + pageSize); // returns a subarray from start (currentIndex) to end (currentIndex + 5)
-    visibleSeasons.forEach(season => {
-        const li = document.createElement("li");
-        li.className = "page-item";
-        li.innerHTML = `<a class="page-link" href="#">${season}</a>`;
-        li.onclick = (e) => {
-            e.preventDefault();
-            loadSeason(season);
-        };
-        seasonPagination.appendChild(li);
-    });
-
-    // create the next button
-    const nextItem = document.createElement("li");
-    nextItem.className = "page-item" + (currentIndex + pageSize >= seasons.length ? " disabled" : ""); // guess if the pagination is at the end
-    nextItem.innerHTML = `<a class="page-link" href="#">»</a>`;
-    nextItem.onclick = (e) => {
-        e.preventDefault();
-        if (currentIndex + pageSize < seasons.length) {
-            currentIndex += pageSize;
-            renderPagination();
-        }
-    };
-    seasonPagination.appendChild(nextItem);
-}
-
-*/
-
-// ---------- for each season ----------
-
-function loadSeason(season) {
-    seasonName.textContent = season;
-    seasonContent.innerHTML = `<p>Content for season <strong>${season}</strong> goes here.</p>`;
-}
-
-//renderPagination();
-//loadSeason(seasons[0]);
-
-// lists the teams of each league
+// ---------- list the team of each league ----------
 async function getTeams(league, season) {
     const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
     
@@ -106,9 +32,9 @@ async function getTeams(league, season) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", getTeams('es.2', '2025-26'))
+//document.addEventListener("DOMContentLoaded", getTeams('es.2', '2025-26'))
 
-// get the total amount of points per team
+// ---------- get the total amount of points per team ----------
 async function getPoints(league, season) {
     const teamsSet = await getTeams(league, season);
     //console.log(teamsSet);
@@ -146,9 +72,9 @@ async function getPoints(league, season) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", getPoints('es.1', '2024-25'))
+//document.addEventListener("DOMContentLoaded", getPoints('es.1', '2024-25'))
 
-// get the ranking
+// ---------- get the ranking ----------
 async function getLeagueTable(league, season) {
     const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
 
@@ -289,11 +215,11 @@ function renderTable(table) {
     container.innerHTML = html;
 }
 
-
 // document.addEventListener("DOMContentLoaded", getLeagueTable('es.1', '2025-26').then(table => {
 //     renderTable(table);
 // }));
 
+// ---------- load all teams and display it dynamically ----------
 async function loadAllTeams() {
     const teamsSet = new Set();
 
