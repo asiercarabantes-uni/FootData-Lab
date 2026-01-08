@@ -3054,6 +3054,15 @@ section,
   }
 }
 
+.course-badge {
+    display: inline-block;  /* para que se alineen uno al lado del otro */
+    padding: 0.2em 0.6em;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    margin-right: 0.3rem;
+    font-size: 0.8rem;
+}
+
 .course-details .course-hero .hero-content .course-badge span {
   padding: 8px 16px;
   border-radius: 25px;

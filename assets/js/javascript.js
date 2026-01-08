@@ -6,6 +6,43 @@ const seasons = ['2025-26', '2024-25', '2023-24', '2022-23',
   '2021-22', '2020-21', '2019-20', '2018-19',
   '2017-18', '2016-17', '2015-16', '2014-15'];
 
+const canonicalNames = {
+    'Club Atlético de Madrid': 'Atlético de Madrid',
+    'Atlético Madrid': 'Atlético de Madrid',
+    'Club Deportivo Alavés': 'Deportivo Alavés',
+    'CD Alavés': 'Deportivo Alavés',
+    'Deportivo La Coruña': 'Deportivo de La Coruña',
+    'Rayo Vallecano de Madrid': 'Rayo Vallecano',
+    'RC Celta': 'RC Celta de Vigo',
+    'Real Madrid CF': 'Real Madrid',
+    'Real Betis Balompié': 'Real Betis',
+    'RCD Espanyol de Barcelona': 'RCD Espanyol',
+    'Espanyol Barcelona': 'RCD Espanyol',
+    'Real Sociedad de Fútbol': 'Real Sociedad',
+    'Aston Villa FC': 'Aston Villa',
+    'Brighton & Hove Albion FC': 'Brighton & Hove Albion',
+    'Crystal Palace FC': 'Crystal Palace',
+    'Leicester City FC': 'Leicester',
+    'Leicester City': 'Leicester',
+    'Manchester City FC': 'Manchester City',
+    'Manchester United FC': 'Manchester United',
+    'Newcastle United FC': 'Newcastle United',
+    'Norwich City FC': 'Norwich City'
+}
+
+const leagueMap = {
+  'es.1': 'LaLiga EA Sports',
+  'es.2': 'LaLiga Hypermotion',
+  'en.1': 'Premier League',
+  'it.1': 'Serie A',
+  'de.1': 'Bundesliga',
+  'fr.1': 'Ligue 1'
+};
+
+function normalizeTeamName(name) {
+  return canonicalNames[name] || name;
+}
+
 // ---------- list the team of each league ----------
 async function getTeams(league, season) {
     const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
@@ -244,12 +281,19 @@ async function loadAllTeams() {
                     const teams = [match.team1, match.team2];
 
                     teams.forEach(teamName => {
-                        if (!teamsMap.has(teamName)) {
-                        teamsMap.set(teamName, {
-                            name: teamName,
-                            league: leagueMap[league],
-                            leagueCode: league
-                        });
+                        const canonical = normalizeTeamName(teamName);
+                        if (teamsMap.has(canonical)) {
+                            const existing = teamsMap.get(canonical);
+                            if (!existing.leagueCodes.includes(league)) {
+                                existing.leagues.push(leagueMap[league]);
+                                existing.leagueCodes.push(league);
+                            }
+                        } else {
+                            teamsMap.set(canonical, {
+                                name: canonical,
+                                leagues: [leagueMap[league]],
+                                leagueCodes: [league]
+                            });
                         }
                     });
                 });
@@ -263,28 +307,32 @@ async function loadAllTeams() {
 }
 
 function createTeamCard(team) {
+
+    const badges = team.leagues.map(league => `<span class="course-badge">${league}</span>`).join('');
+
     return `
     <div class="col-lg-6 col-md-6 mb-4">
         <div class="course-card">
-        <div class="course-image">
-            <img src="assets/img/teams/default.png" class="img-fluid" alt="${team.name}">
-        </div>
-
-        <div class="course-content">
-            <div class="course-meta">
-            <span class="category">${team.league}</span>
-            <span class="level">Europe</span>
+            <div class="course-image">
+                <img src="assets/img/teams/default.png" class="img-fluid" alt="${team.name}">
             </div>
 
-            <h3>${team.name}</h3>
+            <div class="course-content">
+                <div class="course-meta">
+                    <span class="category">
+                        ${badges} <!-- todos los badges dentro de category -->
+                    </span>
+                </div>
 
-            <p>
-            Professional football club competing in ${team.league},
-            based on open football data from 2010 to 2025.
-            </p>
+                <h3>${team.name}</h3>
 
-            <a href="#" class="btn-course">View Team</a>
-        </div>
+                <p>
+                    Professional football club competing in ${team.league},
+                    based on open football data from 2010 to 2025.
+                </p>
+
+                <a href="#" class="btn-course">View Team</a>
+            </div>
         </div>
     </div>
     `;
@@ -393,15 +441,6 @@ initTeams();
 
 // ---------- teams filters ----------
 
-const leagueMap = {
-  'es.1': 'LaLiga EA Sports',
-  'es.2': 'LaLiga Hypermotion',
-  'en.1': 'Premier League',
-  'it.1': 'Serie A',
-  'de.1': 'Bundesliga',
-  'fr.1': 'Ligue 1'
-};
-
 document.querySelectorAll('.filter-checkbox input')
     .forEach(cb => cb.addEventListener('change', onFilterChange));
 
@@ -443,7 +482,7 @@ function applyFilters() {
         filteredTeams = [...teams];
     } else {
     filteredTeams = teams.filter(team =>
-        checkedLeagues.includes(team.leagueCode)
+        checkedLeagues.some(code => team.leagueCodes.includes(code))
     );
     }
 
