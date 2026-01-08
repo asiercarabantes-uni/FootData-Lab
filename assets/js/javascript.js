@@ -350,11 +350,22 @@ let totalPages = 1;
 let teams = [];
 
 async function initTeams() {
+
+    const container = document.getElementById('teams-container');
+
+    container.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    `;
+
     teams = await loadAllTeams();
 
     teams.sort((a, b) => a.name.localeCompare(b.name));
 
-    filteredTeams = [...teams]; // por defecto todas
+    filteredTeams = [...teams];
     totalPages = Math.ceil(filteredTeams.length / teamsPerPage);
 
     renderPage(1);
