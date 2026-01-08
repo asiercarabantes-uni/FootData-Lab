@@ -27,7 +27,11 @@ const canonicalNames = {
     'Manchester City FC': 'Manchester City',
     'Manchester United FC': 'Manchester United',
     'Newcastle United FC': 'Newcastle United',
-    'Norwich City FC': 'Norwich City'
+    'Norwich City FC': 'Norwich City',
+    'Racing Santander': 'Racing de Santander',
+    'Racing Ferrol': 'Racing de Ferrol',
+    'Recreativo Huelva': 'Recreativo de Huelva',
+    'Sporting Gijon': 'Sporting de Gijon'
 }
 
 const leagueMap = {
@@ -339,6 +343,7 @@ function createTeamCard(team) {
 }
 
 // ---------- make the pagination functional ----------
+
 const teamsPerPage = 10;
 let currentPage = 1;
 let totalPages = 1;
@@ -439,7 +444,7 @@ function renderPagination() {
 
 initTeams();
 
-// ---------- teams filters ----------
+// ---------- filters ----------
 
 document.querySelectorAll('.filter-checkbox input')
     .forEach(cb => cb.addEventListener('change', onFilterChange));
@@ -474,21 +479,34 @@ function onFilterChange(e) {
 }
 
 function applyFilters() {
+    const query = searchInput.value.toLowerCase(); 
+
     const checkedLeagues = Array.from(
         document.querySelectorAll('.filter-checkbox input:checked')
     ).map(cb => cb.dataset.league);
 
+    let filtered = [];
     if (checkedLeagues.includes('all')) {
-        filteredTeams = [...teams];
+        filtered = [...teams];
     } else {
-    filteredTeams = teams.filter(team =>
-        checkedLeagues.some(code => team.leagueCodes.includes(code))
-    );
+        filtered = teams.filter(team =>
+            checkedLeagues.some(code => team.leagueCodes.includes(code))
+        );
     }
+
+    filteredTeams = filtered.filter(team =>
+        team.name.toLowerCase().includes(query)
+    );
 
     currentPage = 1;
     totalPages = Math.ceil(filteredTeams.length / teamsPerPage);
     renderPage(1);
 }
 
+const searchInput = document.querySelector('.search-box input');
 
+searchInput.addEventListener('input', applyFilters);
+
+ const searchedTeams = filteredTeams.filter(team => 
+        team.name.toLowerCase().includes(query)
+    );
