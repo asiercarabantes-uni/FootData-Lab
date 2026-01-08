@@ -518,6 +518,55 @@ const searchInput = document.querySelector('.search-box input');
 
 searchInput.addEventListener('input', applyFilters);
 
- const searchedTeams = filteredTeams.filter(team => 
+    const searchedTeams = filteredTeams.filter(team => 
         team.name.toLowerCase().includes(query)
     );
+
+function createLeagueCard(code, name, delay) {
+  return `
+    <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="${delay}">
+      <div class="instructor-card">
+        <div class="instructor-image">
+          <img src="assets/img/teams/default.png" class="img-fluid" alt="${name}">
+          <div class="overlay-content">
+            <div class="rating-stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+              <span>4.5</span>
+            </div>
+            <div class="course-count">
+              <i class="bi bi-play-circle"></i>
+              <span>Info</span>
+            </div>
+          </div>
+        </div>
+        <div class="instructor-info">
+          <h5>${name}</h5>
+          <p class="specialty">${code}</p>
+          <p class="description">Top football league</p>
+          <div class="action-buttons">
+            <a href="#" class="btn-view">View League</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+function renderLeagues() {
+  const container = document.getElementById('leagues-container');
+  container.innerHTML = ''; // remove spinner
+
+  let delay = 200;
+  for (const code in leagueMap) {
+    container.innerHTML += createLeagueCard(code, leagueMap[code], delay);
+    delay += 50;
+  }
+}
+
+
+renderLeagues();
