@@ -543,10 +543,136 @@ async function loadSeasons(league) {
     }
 }
 
+function renderLeagueHero(leagueCode) {
+    const leagueNameEl = document.getElementById('league-name');
+    const leagueDescEl = document.getElementById('league-desc');
+
+    if (!leagueMap[leagueCode]) return;
+
+    const leagueName = leagueMap[leagueCode];
+
+    // Puedes definir un mapa de logos por liga
+    const leagueLogos = {
+        'es.1': 'assets/img/leagues/laliga-easports.png',
+        'es.2': 'assets/img/leagues/laliga-hypermotion.png',
+        'en.1': 'assets/img/leagues/premier-league.png',
+        'it.1': 'assets/img/leagues/serie-a.png',
+        'de.1': 'assets/img/leagues/bundesliga.png',
+        'fr.1': 'assets/img/leagues/ligue1.png',
+    };
+
+    const logoSrc = leagueLogos[leagueCode] || leagueLogos['default'];
+
+    leagueNameEl.innerHTML = `
+        <img src="${logoSrc}" alt="${leagueName}" class="league-logo me-2" style="height:60px; vertical-align:middle;">
+        <span style="font-size:3rem; font-weight:700;">${leagueName}</span>
+    `;
+
+    leagueDescEl.textContent = `Explore the latest stats, tables and highlights of the ${leagueName}.`;
+}
+
+function renderSummaryCards(table) {
+    const container = document.getElementById('summary-cards');
+    container.innerHTML = '';
+
+    if (!table || table.length === 0) return;
+
+    const totalMatches = table.reduce((sum, team) => sum + team.played, 0) / 2; // cada partido contado dos veces
+    const totalGoals = table.reduce((sum, team) => sum + team.goalsFor, 0);
+    const avgGoals = (totalGoals / totalMatches).toFixed(2);
+    const totalTeams = table.length;
+
+    const topTeam = table[0].name; // ya está ordenado por puntos
+    const mostWinDiff = table.reduce((max, team) => Math.max(max, team.goalDiff), 0);
+
+    const cards = [
+        { title: 'Matches Played', value: totalMatches, icon: 'bi bi-trophy', color: 'primary' },
+        { title: 'Goals Scored', value: totalGoals, icon: 'bi bi-circle-fill', color: 'success' },
+        { title: 'Average Goals', value: avgGoals, icon: 'bi bi-speedometer2', color: 'warning' },
+        { title: 'Teams', value: totalTeams, icon: 'bi bi-people', color: 'info' },
+        { title: 'Top Team', value: topTeam, icon: 'bi bi-star-fill', color: 'danger' },
+        { title: 'Best Goal Diff', value: mostWinDiff, icon: 'bi bi-arrow-up-right-circle', color: 'secondary' }
+    ];
+
+    cards.forEach(card => {
+        container.innerHTML += `
+            <div class="col-md-3 col-sm-6">
+                <div class="card summary-card text-center shadow-sm mb-4 border-0" style="transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
+                    <div class="card-body bg-${card.color} text-white rounded">
+                        <i class="${card.icon} display-4 mb-2"></i>
+                        <h3 class="card-title mb-1">${card.value}</h3>
+                        <p class="card-text">${card.title}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    // Hover efecto
+    document.querySelectorAll('.summary-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+            card.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+        });
+    });
+}
+
+// Ejemplo de uso cuando cargues la liga
 async function loadLeague(season) {
     if (!leagueId) return;
+
+    // Mostramos spinner mientras cargamos
+    const container = document.getElementById('league_table');
+    container.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    `;
+
+    renderLeagueHero(leagueId);
+
     const table = await getLeagueTable(leagueId, season);
-    if (table) renderTable(table);
+
+    if (table && table.length > 0) {
+        renderTable(table);
+        renderSummaryCards(table);
+    } else {
+        container.innerHTML = "<p>No data available for this season.</p>";
+        document.getElementById('summary-cards').innerHTML = '';
+    }
+}
+
+
+async function loadLeague(season) {
+    if (!leagueId) return;
+
+    // Mostramos spinner mientras cargamos
+    const container = document.getElementById('league_table');
+    container.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    `;
+
+    renderLeagueHero(leagueId);
+
+    const table = await getLeagueTable(leagueId, season);
+
+    if (table && table.length > 0) {
+        renderTable(table);
+        renderSummaryCards(table);
+    } else {
+        container.innerHTML = "<p>No data available for this season.</p>";
+        document.getElementById('summary-cards').innerHTML = '';
+    }
 }
 
 if (seasonSelect) {
