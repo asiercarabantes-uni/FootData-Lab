@@ -4,9 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Statistics - FootData-Lab</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <title>Statistics - FootData Lab</title>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -15,7 +13,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,23 +24,16 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Learner
-  * Template URL: https://bootstrapmade.com/learner-bootstrap-course-template/
-  * Updated: Jul 08 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body class="instructors-page">
+<body class="statistics-page">
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
         <h1 class="sitename">FootData Lab</h1>
       </a>
 
@@ -74,203 +65,216 @@
           </ol>
         </nav>
       </div>
-    </div><!-- End Page Title -->
-
-    <!-- Statistics Section -->
-<section id="statistics" class="section">
-
-  <div class="container">
+    </div>
 
     <!-- Filters -->
-    <div class="card mb-4 shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title mb-3">Filters</h5>
-        <div class="row g-3">
+    <section class="section py-4">
+      <div class="container">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Filters</h5>
+            <div class="row g-3">
 
-          <div class="col-md-3">
-            <label class="form-label">League</label>
-            <select class="form-select">
-              <option selected>All leagues</option>
-              <option>La Liga</option>
-              <option>Premier League</option>
-              <option>Serie A</option>
-              <option>Bundesliga</option>
-              <option>Ligue 1</option>
-            </select>
+              <div class="col-md-3">
+                <label class="form-label">League</label>
+                <select id="league-filter" class="form-select">
+                  <option selected>All leagues</option>
+                  <option>La Liga</option>
+                  <option>Premier League</option>
+                  <option>Serie A</option>
+                  <option>Bundesliga</option>
+                  <option>Ligue 1</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Season</label>
+                <select id="season-filter" class="form-select">
+                  <option selected>All seasons</option>
+                  <option>2016/17</option>
+                  <option>2017/18</option>
+                  <option>2018/19</option>
+                  <option>2019/20</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Team</label>
+                <select id="team-filter" class="form-select">
+                  <option selected>All teams</option>
+                </select>
+              </div>
+
+              <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-primary w-100" id="apply-filters-btn">
+                  Apply filters
+                </button>
+              </div>
+
+            </div>
           </div>
-
-          <div class="col-md-3">
-            <label class="form-label">Season</label>
-            <select class="form-select">
-              <option selected>All seasons</option>
-              <option>2016/17</option>
-              <option>2017/18</option>
-              <option>2018/19</option>
-              <option>2019/20</option>
-            </select>
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label">Team</label>
-            <select class="form-select">
-              <option selected>All teams</option>
-            </select>
-          </div>
-
-          <div class="col-md-3 d-flex align-items-end">
-            <button class="btn btn-primary w-100">
-              Apply filters
-            </button>
-          </div>
-
         </div>
       </div>
-    </div>
-    <!-- End Filters -->
+    </section>
 
     <!-- KPIs -->
-    <div class="row mb-4">
+    <section class="section py-4 light-background">
+      <div class="container">
+        <div class="row g-4 text-center">
 
-      <div class="col-lg-3 col-md-6">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h6 class="text-muted">Matches</h6>
-            <h2>380</h2>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h6 class="text-muted">Total Goals</h6>
-            <h2>1024</h2>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h6 class="text-muted">Goals / Match</h6>
-            <h2>2.69</h2>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h6 class="text-muted">Draws</h6>
-            <h2>92</h2>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!-- End KPIs -->
-
-    <!-- Charts -->
-    <div class="row mb-4">
-
-      <div class="col-lg-8">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Goals per Season</h5>
-            <div class="chart-container" style="height: 300px;">
-              <!-- Chart.js / ApexCharts -->
-              <canvas id="goalsSeasonChart"></canvas>
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Matches</h6>
+                <h2 id="kpi-matches">380</h2>
+              </div>
             </div>
           </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Total Goals</h6>
+                <h2 id="kpi-goals">1024</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Goals / Match</h6>
+                <h2 id="kpi-goals-match">2.69</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Draws</h6>
+                <h2 id="kpi-draws">92</h2>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+    </section>
 
-      <div class="col-lg-4">
+    <!-- Charts & Trends -->
+    <section class="section py-4">
+      <div class="container">
+        <div class="row g-4">
+
+          <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+             <div class="card-body">
+              <h5 class="card-title">Goals per Season</h5>
+
+              <!-- Dropdown de temporadas -->
+              <div class="mb-3">
+                <label for="season-select-chart" class="form-label">Select league: </label>
+                <select id="season-select-chart" class="form-select w-auto d-inline">
+                  <!-- JS rellenará las temporadas disponibles -->
+                </select>
+              </div>
+
+              <!-- Spinner mientras cargamos -->
+              <div id="goals-spinner" class="text-center my-3" style="display:none;">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+
+              <!-- Canvas del gráfico -->
+              <canvas id="goalsSeasonChart" style="height:300px;"></canvas>
+             </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body" style="height: 300px; position: relative;">
+                <h5 class="card-title">Team Goals Trend</h5>
+                
+                <!-- Input de búsqueda para equipos -->
+                <input id="team-goals-input" class="form-control mb-3" type="text" placeholder="Search for a team...">
+                
+                <!-- Contenedor para sugerencias de autocompletado -->
+                <div id="team-suggestions" class="list-group position-absolute" style="z-index:1000;"></div>
+                
+                <!-- Canvas del gráfico -->
+                <canvas id="teamGoalsChart" style="height:300px;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra chart idea: Average goals per match per season -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="card-title">Avg Goals per Match per Season</h5>
+                <canvas id="avgGoalsChart" style="height:300px;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra chart idea: Top scoring teams -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="card-title">Top Scoring Teams</h5>
+                <canvas id="topTeamsChart" style="height:300px;"></canvas>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Match Search -->
+    <section class="section py-4">
+      <div class="container">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h5 class="card-title">Match Results</h5>
-            <div class="chart-container" style="height: 300px;">
-              <canvas id="resultsPieChart"></canvas>
+            <h5 class="card-title mb-3">Search Match Results</h5>
+            <div class="row g-3 mb-3">
+              <div class="col-md-5 position-relative">
+                <label class="form-label">Team 1</label>
+                <input id="search-team-1" class="form-control mb-3" type="text" placeholder="Search for Team 1">
+                <div id="team1-suggestions" class="list-group" style="z-index:1000;"></div>
+              </div>
+              <div class="col-md-5 position-relative">
+                <label class="form-label">Team 2</label>
+                <input id="search-team-2" class="form-control mb-3" type="text" placeholder="Search for Team 2">
+                <div id="team2-suggestions" class="list-group" style="z-index:1000;"></div>
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button id="search-match-btn" class="btn btn-primary mb-3">Search</button>
+              </div>
             </div>
+
+            <div id="match-search-results" class="mt-3">
+              <!-- JS rellenará los resultados históricos -->
+            </div>
+
           </div>
         </div>
       </div>
-
-    </div>
-    <!-- End Charts -->
-
-    <!-- Comparison Table -->
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title mb-3">Team Statistics</h5>
-
-        <div class="table-responsive">
-          <table class="table table-striped align-middle">
-            <thead>
-              <tr>
-                <th>Team</th>
-                <th>Matches</th>
-                <th>Goals For</th>
-                <th>Goals Against</th>
-                <th>Goal Diff</th>
-                <th>Wins</th>
-                <th>Draws</th>
-                <th>Losses</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>FC Barcelona</td>
-                <td>38</td>
-                <td>90</td>
-                <td>36</td>
-                <td>+54</td>
-                <td>26</td>
-                <td>6</td>
-                <td>6</td>
-              </tr>
-              <tr>
-                <td>Real Madrid</td>
-                <td>38</td>
-                <td>88</td>
-                <td>41</td>
-                <td>+47</td>
-                <td>25</td>
-                <td>9</td>
-                <td>4</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </div>
-    </div>
-    <!-- End Table -->
-
-  </div>
-
-</section>
-<!-- End Statistics Section -->
+    </section>
 
   </main>
 
-    <footer id="footer" class="footer accent-background">
-
+  <footer id="footer" class="footer accent-background">
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
             <span class="sitename">FootData Lab</span>
           </a>
-          <p>FootData Lab provides comprehensive insights into European football leagues and teams using open data. 
-          Explore detailed statistics, track league standings, analyze top-performing clubs, and access historical and current season data, all in one place. 
-          Our goal is to make football data accessible, informative, and engaging for fans, analysts, and researchers alike.</p>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
+          <p>FootData Lab provides comprehensive insights into European football leagues and teams using open data. Explore detailed statistics, track league standings, analyze top-performing clubs, and access historical and current season data, all in one place.</p>
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
@@ -303,39 +307,22 @@
           <p class="mt-4"><strong>Phone:</strong> <span>943 20 70 99</span></p>
           <p><strong>Email:</strong> <span>infofootdata@gmail.com</span></p>
         </div>
-
       </div>
     </div>
-
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">FootData Lab</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
   </footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/javascript.js"></script> <!-- Aquí irá el JS que rellenará todo dinámicamente -->
 
 </body>
-
 </html>

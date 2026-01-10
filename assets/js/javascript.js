@@ -621,34 +621,6 @@ function renderSummaryCards(table) {
     });
 }
 
-// Ejemplo de uso cuando cargues la liga
-async function loadLeague(season) {
-    if (!leagueId) return;
-
-    // Mostramos spinner mientras cargamos
-    const container = document.getElementById('league_table');
-    container.innerHTML = `
-        <div class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    `;
-
-    renderLeagueHero(leagueId);
-
-    const table = await getLeagueTable(leagueId, season);
-
-    if (table && table.length > 0) {
-        renderTable(table);
-        renderSummaryCards(table);
-    } else {
-        container.innerHTML = "<p>No data available for this season.</p>";
-        document.getElementById('summary-cards').innerHTML = '';
-    }
-}
-
-
 async function loadLeague(season) {
     if (!leagueId) return;
 
@@ -684,3 +656,296 @@ if (seasonSelect) {
 if (leagueId && seasonSelect) {
     loadSeasons(leagueId);
 }
+
+// ---------- goals per season chart ----------
+
+let goalsSeasonChart;
+
+const leagueSelectChart = document.getElementById("season-select-chart");
+const spinner = document.getElementById('goals-spinner');
+
+// --- Inicializar dropdown con opción vacía ---
+leagueSelectChart.innerHTML = ""; // limpiar
+const emptyOption = document.createElement("option");
+emptyOption.value = "";
+emptyOption.textContent = "-- Select a league --";
+leagueSelectChart.appendChild(emptyOption);
+
+// Llenar con ligas
+leagues.forEach(l => {
+    const option = document.createElement("option");
+    option.value = l;
+    option.textContent = leagueMap[l] || l;
+    leagueSelectChart.appendChild(option);
+});
+
+// --- Función para cargar goles por temporada ---
+async function loadGoalsPerSeasonLine(league) {
+    if (!league) {
+        renderGoalsChartEmpty();
+        return;
+    }
+
+    spinner.style.display = 'block';
+
+    const labels = [];
+    const values = [];
+
+    const fetchPromises = seasons.map(async season => {
+        const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
+        try {
+            const res = await fetch(url);
+            if (!res.ok) return null;
+
+            const data = await res.json();
+            const matches = data.matches || [];
+
+            let totalGoals = 0;
+            matches.forEach(m => {
+                if (m.score && m.score.ft) totalGoals += m.score.ft[0] + m.score.ft[1];
+            });
+
+            if (totalGoals > 0) return { season, totalGoals };
+            return null;
+        } catch {
+            return null;
+        }
+    });
+
+    const results = await Promise.all(fetchPromises);
+
+    results.forEach(r => {
+        if (r) {
+            labels.push(r.season);
+            values.push(r.totalGoals);
+        }
+    });
+
+    // Ordenar cronológicamente
+    labels.reverse();
+    values.reverse();
+
+    renderGoalsChartLine(labels, values);
+    spinner.style.display = 'none';
+}
+
+// --- Función para renderizar línea ---
+function renderGoalsChartLine(labels, values) {
+    const canvas = document.getElementById('goalsSeasonChart');
+    const ctx = canvas.getContext('2d');
+
+    // Ajuste para alta resolución (retina)
+    const displayWidth = 600;  // ancho visible en pantalla
+    const displayHeight = 300; // alto visible en pantalla
+    const ratio = window.devicePixelRatio || 1;
+
+    canvas.width = displayWidth * ratio;
+    canvas.height = displayHeight * ratio;
+    canvas.style.width = displayWidth + 'px';
+    canvas.style.height = displayHeight + 'px';
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0); // escalar todo al ratio correcto
+
+    if (goalsSeasonChart) goalsSeasonChart.destroy();
+
+    goalsSeasonChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Goals Scored',
+                data: values,
+                fill: false,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: { legend: { display: true } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+}
+
+
+// --- Función para gráfico vacío ---
+function renderGoalsChartEmpty() {
+    renderGoalsChartLine([], []);
+}
+
+// --- Listener dropdown ---
+leagueSelectChart.addEventListener('change', () => {
+    loadGoalsPerSeasonLine(leagueSelectChart.value);
+});
+
+// --- Inicializar vacío por defecto ---
+leagueSelectChart.selectedIndex = 0;
+renderGoalsChartEmpty();
+
+// ---------- goals per team chart ----------
+
+
+// ---------- match search ----------
+let allTeams = [];
+
+// --- Inicializar equipos ---
+async function initTeams() {
+    allTeams = await loadAllTeams(); // tu función existente
+}
+
+// --- Autocompletado de equipos ---
+function setupAutocomplete(inputEl, suggestionsEl) {
+    inputEl.addEventListener('input', () => {
+        const val = inputEl.value.toLowerCase();
+        suggestionsEl.innerHTML = '';
+
+        if (!val) return;
+
+        const matches = allTeams
+            .map(t => t.name)
+            .filter(name => name.toLowerCase().includes(val))
+            .slice(0, 10);
+
+        matches.forEach(name => {
+            const item = document.createElement('div');
+            item.className = 'list-group-item list-group-item-action';
+            item.textContent = name;
+            item.addEventListener('click', () => {
+                inputEl.value = name;
+                suggestionsEl.innerHTML = '';
+            });
+            suggestionsEl.appendChild(item);
+        });
+    });
+
+    inputEl.addEventListener('blur', () => {
+        setTimeout(() => { suggestionsEl.innerHTML = ''; }, 100);
+    });
+}
+
+// Ejemplo de uso:
+setupAutocomplete(
+    document.getElementById('search-team-1'),
+    document.getElementById('search-team-1-suggestions')
+);
+setupAutocomplete(
+    document.getElementById('search-team-2'),
+    document.getElementById('search-team-2-suggestions')
+);
+
+// --- Buscar partidos entre dos equipos ---
+async function searchMatches(team1, team2) {
+    const resultsContainer = document.getElementById('match-search-results');
+    resultsContainer.innerHTML = `<div class="text-center my-3">
+        <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+    </div>`;
+
+    const matchesFound = [];
+
+    for (const season of seasons) {
+        for (const league of leagues) {
+            const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) continue;
+
+                const data = await res.json();
+                const matches = data.matches || [];
+
+                matches.forEach(match => {
+                    const mTeam1 = normalizeTeamName(match.team1);
+                    const mTeam2 = normalizeTeamName(match.team2);
+
+                    if ((mTeam1 === team1 && mTeam2 === team2) ||
+                        (mTeam1 === team2 && mTeam2 === team1)) {
+
+                        matchesFound.push({
+                            date: match.date || '',
+                            season,
+                            league: leagueMap[league] || league,
+                            team1: mTeam1,
+                            team2: mTeam2,
+                            score: match.score?.ft || ['-', '-']
+                        });
+                    }
+                });
+
+            } catch(err) {
+                console.error("Error loading matches:", err);
+            }
+        }
+    }
+
+    // --- Ordenar: más recientes arriba ---
+    matchesFound.sort((a, b) => {
+        if (a.date && b.date) return new Date(b.date) - new Date(a.date);
+        return seasons.indexOf(b.season) - seasons.indexOf(a.season);
+    });
+
+    // --- Renderizar resultados ---
+    if (matchesFound.length === 0) {
+        resultsContainer.innerHTML = '<p class="text-center">No matches found.</p>';
+        return;
+    }
+
+    // Calcular victorias/empates
+    let team1Wins = 0, team2Wins = 0, draws = 0;
+    matchesFound.forEach(m => {
+        if (!m.score || m.score[0] === '-' || m.score[1] === '-') return;
+        const [g1, g2] = m.score.map(Number);
+
+        // Contabilizar victorias según qué equipo es team1 en la búsqueda
+        if (m.team1 === team1) {
+            if (g1 > g2) team1Wins++;
+            else if (g2 > g1) team2Wins++;
+            else draws++;
+        } else {
+            if (g2 > g1) team1Wins++;
+            else if (g1 > g2) team2Wins++;
+            else draws++;
+        }
+    });
+
+    // Renderizar HTML
+    let html = matchesFound.map(m => `
+        <div class="card mb-2">
+            <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+                <div><strong>${m.team1}</strong> vs <strong>${m.team2}</strong></div>
+                <div>${m.score[0]} - ${m.score[1]}</div>
+                <div><small>${m.league} | ${m.season} | ${m.date}</small></div>
+            </div>
+        </div>
+    `).join('');
+
+    // Resumen centrado y más grande debajo
+    html += `
+        <p class="fw-bold text-center mt-3" style="font-size:1.25rem;">
+            ${team1} ${team1Wins} | ${draws} | ${team2Wins} ${team2}
+        </p>
+    `;
+
+    resultsContainer.innerHTML = html;
+}
+
+
+// --- Inicialización ---
+document.addEventListener('DOMContentLoaded', async () => {
+    await initTeams();
+
+    const team1Input = document.getElementById('search-team-1');
+    const team2Input = document.getElementById('search-team-2');
+
+    setupAutocomplete(team1Input, document.getElementById('team1-suggestions'));
+    setupAutocomplete(team2Input, document.getElementById('team2-suggestions'));
+
+    document.getElementById('search-match-btn').addEventListener('click', () => {
+        const t1 = normalizeTeamName(team1Input.value.trim());
+        const t2 = normalizeTeamName(team2Input.value.trim());
+
+        if (!t1 || !t2) return alert('Please select both teams');
+        searchMatches(t1, t2);
+    });
+});
