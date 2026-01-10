@@ -31,7 +31,10 @@ const canonicalNames = {
     'Racing Santander': 'Racing de Santander',
     'Racing Ferrol': 'Racing de Ferrol',
     'Recreativo Huelva': 'Recreativo de Huelva',
-    'Sporting Gijon': 'Sporting de Gijon'
+    'Sporting Gijon': 'Sporting de Gijon',
+    'Bayer 04 Leverkusen': 'Bayer Leverkusen',
+    'FC Bayern München': 'Bayern München',
+    'Bor. Mönchengladbach': 'Borussia Mönchengladbach'
 }
 
 const leagueMap = {
@@ -46,74 +49,6 @@ const leagueMap = {
 function normalizeTeamName(name) {
   return canonicalNames[name] || name;
 }
-
-// ---------- list the team of each league ----------
-async function getTeams(league, season) {
-    const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
-    
-    try {
-        const res = await(fetch(url));
-        const data = await(res.json());
-        //console.log(data);
-
-        const matches = data.matches;
-        //console.log(matches);
-        const teamsSet = new Set();
-
-        for(const match of matches) {
-            if((match.round === "1. Round") || (match.round === "Matchday 1")) { // (loop once per league (round 1 / matchday 1) is enough)
-                teamsSet.add(match.team1);
-                teamsSet.add(match.team2);
-            } else break;
-        }
-        console.log(teamsSet);
-        return teamsSet;
-    } catch (err) {
-        console.error("Error loading teams:", err);
-    }
-}
-
-//document.addEventListener("DOMContentLoaded", getTeams('es.2', '2025-26'))
-
-// ---------- get the total amount of points per team ----------
-async function getPoints(league, season) {
-    const teamsSet = await getTeams(league, season);
-    //console.log(teamsSet);
-    const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
-    
-    try {
-        const res = await(fetch(url))
-        const data = await(res.json())
-        //console.log(data);
-        
-        const matches = data.matches;
-        // console.log(matches);
-
-        const points = {};
-        teamsSet.forEach(team => points[team] = 0);
-        
-        for(const match of matches) {
-            if (!match.score || !match.score.ft) continue;
-            const g1 = match.score.ft[0];
-            const g2 = match.score.ft[1];
-
-            const team1 = match.team1;
-            const team2 = match.team2;
-
-            if(g1 > g2) points[team1] += 3;
-            else if(g1 < g2) points[team2] += 3;
-            else {
-                points[team1] += 1;
-                points[team2] += 1;
-            }
-        }
-        console.log(points);
-    } catch (err) {
-        console.error("Error loading points:", err);
-    }
-}
-
-//document.addEventListener("DOMContentLoaded", getPoints('es.1', '2024-25'))
 
 // ---------- get the ranking ----------
 async function getLeagueTable(league, season) {
@@ -568,5 +503,18 @@ function renderLeagues() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", async () => {
+    // 1️⃣ Renderizamos las cards de ligas
+    renderLeagues();
+
+    // 2️⃣ Añadimos los eventos a las cards
+    attachLeagueCardEvents();
+});
+
+document.getElementById("season-select")
+    .addEventListener("change", e => {
+        currentSeason = e.target.value;
+        loadLeague(currentLeague, currentSeason);
+    });
 
 renderLeagues();

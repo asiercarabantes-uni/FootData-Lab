@@ -1,127 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <title>LaLiga Hypermotion - FootData-Lab</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Leagues - FootData-Lab</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Learner
+  * Template URL: https://bootstrapmade.com/learner-bootstrap-course-template/
+  * Updated: Jul 08 2025 with Bootstrap v5.3.7
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
-<body>
-    <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg fixed-top" style="background-color:#477fe8;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">FootData-Lab</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home.html">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Leagues
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="laliga-easports.html">
-                                    <img src="../img/spain.png" class="me-2" width="18" alt=""> LaLiga EA Sports
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="laliga-hypermotion.html">
-                                    <img src="../img/spain.png" class="me-2" width="18"> LaLiga Hypermotion
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="premier-league.html">
-                                    <img src="../img/england.png" class="me-2" width="18"> Premier League
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="serie-a.html">
-                                    <img src="../img/italy.png" class="me-2" width="18"> Serie A
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="bundesliga.html">
-                                    <img src="../img/germany.png" class="me-2" width="18"> Bundesliga
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="ligue1.html">
-                                    <img src="../img/france.png" class="me-2" width="18"> Ligue 1
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="data/champions-league.html">
-                                    <img src="../img/champions-league.png" class="me-2" width="18"> Champions League
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Content -->
-    <div id="content" class="container-fluid bg-light" style="padding-top: 80px; padding-bottom: 80px;">
-        <div class="heading d-flex gap-3">
-            <img src="../img/laliga-hypermotion.png" style="width: 100px; height:100px" alt="" class="border rounded-4">
-            <div class="heading_title">
-                <div class="heading_name fs-1">LaLiga Hypermotion</div>
-                <div class="heading_info" id="seasonName">2025-26</div>
-            </div>
-        </div>
+<body class="instructors-page">
 
-        <div class="seasons mb-3 mt-3 fs-5">
-            Seasons
-            <nav aria-label="Seasons pagination" class="mt-1">
-                <ul class="pagination" id="seasonPagination"></ul>
-            </nav>
-        </div>
-        
-        <div id="seasonContent">
-            <p>Season content will load here.</p>
-        </div>
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.webp" alt=""> -->
+        <h1 class="sitename">FootData Lab</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="leagues.html" class="active">Leagues</a></li>
+          <li><a href="teams.html">Teams</a></li>
+          <li><a href="statistics.html">Statistics</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
     </div>
+  </header>
 
-    <!-- Footer -->
-    <footer class="bg-light text-dark fixed-bottom p-1">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h5>About us</h5>
-                <p>Brief information about the company.</p>
-            </div>
-            <div class="col-md-4">
-                <h5>Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-dark">Home</a></li>
-                    <li><a href="#" class="text-dark">Leagues</a></li>
-                    <li><a href="#" class="text-dark">Champions League</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>Community</h5>
-                <a href="#" class="text-dark me-2">Issues</a>
-                <a href="#" class="text-dark me-2">Discussions</a>
-                <a href="#" class="text-dark">Corporate sponsors</a>
-            </div>
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Leagues</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Leagues</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+  </main>
+
+    <footer id="footer" class="footer accent-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">FootData Lab</span>
+          </a>
+          <p>FootData Lab provides comprehensive insights into European football leagues and teams using open data. 
+          Explore detailed statistics, track league standings, analyze top-performing clubs, and access historical and current season data, all in one place. 
+          Our goal is to make football data accessible, informative, and engaging for fans, analysts, and researchers alike.</p>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
         </div>
-        <div class="text-center mt-3">
-            &copy; 2026 FootData-Lab
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
         </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">Product Management</a></li>
+            <li><a href="#">Marketing</a></li>
+            <li><a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>Otaola Hiribidea 29</p>
+          <p>Eibar Gipuzkoa 20600</p>
+          <p>Spain</p>
+          <p class="mt-4"><strong>Phone:</strong> <span>943 20 70 99</span></p>
+          <p><strong>Email:</strong> <span>infofootdata@gmail.com</span></p>
+        </div>
+
+      </div>
     </div>
-    </footer>
-    
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/javascript.js"></script>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">FootData Lab</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
 </body>
+
 </html>

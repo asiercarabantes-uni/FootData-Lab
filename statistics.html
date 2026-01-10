@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Leagues - FootData-Lab</title>
+  <title>Statistics - FootData-Lab</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -25,8 +25,6 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- =======================================================
   * Template Name: Learner
@@ -52,9 +50,9 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="leagues.html" class="active">Leagues</a></li>
+          <li><a href="leagues.html">Leagues</a></li>
           <li><a href="teams.html">Teams</a></li>
-          <li><a href="statistics.html">Statistics</a></li>
+          <li><a href="statistics.html" class="active">Statistics</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -64,91 +62,19 @@
   </header>
 
   <main class="main">
-    <section class="section league-hero">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-8">
-          <h2 id="league-name">LaLiga EA Sports</h2>
-          <p id="league-desc">
-            Detailed statistics and historical data from the last seasons.
-          </p>
-        </div>
-        <div class="col-lg-4 text-end">
-          <select id="season-select" class="form-select w-auto d-inline">
-          </select>
-        </div>
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Statistics</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Statistics</li>
+          </ol>
+        </nav>
       </div>
-    </div>
-  </section>
-
-  <!-- Summary Cards -->
-  <section class="section">
-    <div class="container">
-      <div class="row gy-4">
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Matches</h6>
-            <h3 id="stat-matches">–</h3>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Total Goals</h6>
-            <h3 id="stat-goals">–</h3>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Goals / Match</h6>
-            <h3 id="stat-avg">–</h3>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Teams</h6>
-            <h3 id="stat-teams">–</h3>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- League Table -->
-  <section class="section light-background">
-    <div class="container">
-      <h3>League Table</h3>
-      <div id="league_table"></div>
-    </div>
-  </section>
-
-  <!-- Rankings -->
-  <section class="section">
-    <div class="container">
-      <div class="row">
-
-        <div class="col-lg-4">
-          <h5>Top Scoring Teams</h5>
-          <ul id="rank-goals" class="list-group"></ul>
-        </div>
-
-        <div class="col-lg-4">
-          <h5>Best Defenses</h5>
-          <ul id="rank-defense" class="list-group"></ul>
-        </div>
-
-        <div class="col-lg-4">
-          <h5>Best Goal Difference</h5>
-          <ul id="rank-goaldiff" class="list-group"></ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
+    </div><!-- End Page Title -->
 
   </main>
 
