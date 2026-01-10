@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Leagues - FootData-Lab</title>
+  <title>Leagues - FootData Lab</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -27,14 +27,6 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- =======================================================
-  * Template Name: Learner
-  * Template URL: https://bootstrapmade.com/learner-bootstrap-course-template/
-  * Updated: Jul 08 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="instructors-page">
@@ -43,8 +35,6 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
         <h1 class="sitename">FootData Lab</h1>
       </a>
 
@@ -64,96 +54,60 @@
   </header>
 
   <main class="main">
+    <!-- Hero Section -->
     <section class="section league-hero">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-8">
-          <h2 id="league-name">LaLiga EA Sports</h2>
-          <p id="league-desc">
-            Detailed statistics and historical data from the last seasons.
-          </p>
-        </div>
-        <div class="col-lg-4 text-end">
-          <select id="season-select" class="form-select w-auto d-inline">
-          </select>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <h2 id="league-name"></h2>
+            <p id="league-desc"></p>
+          </div>
+          <div class="col-lg-4 text-end">
+            <select id="season-select" class="form-select w-auto d-inline"></select>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Summary Cards -->
-  <section class="section">
-    <div class="container">
-      <div class="row gy-4">
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Matches</h6>
-            <h3 id="stat-matches">–</h3>
-          </div>
+    <!-- Summary Cards -->
+    <section class="section">
+      <div class="container">
+        <div class="row gy-4" id="summary-cards">
+          <!-- JS llenará las cards de Matches, Goals, Avg, Teams -->
         </div>
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Total Goals</h6>
-            <h3 id="stat-goals">–</h3>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Goals / Match</h6>
-            <h3 id="stat-avg">–</h3>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="stat-card text-center">
-            <h6>Teams</h6>
-            <h3 id="stat-teams">–</h3>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- League Table -->
-  <section class="section light-background">
-    <div class="container">
-      <h3>League Table</h3>
-      <div id="league_table"></div>
-    </div>
-  </section>
-
-  <!-- Rankings -->
-  <section class="section">
-    <div class="container">
-      <div class="row">
-
-        <div class="col-lg-4">
-          <h5>Top Scoring Teams</h5>
-          <ul id="rank-goals" class="list-group"></ul>
-        </div>
-
-        <div class="col-lg-4">
-          <h5>Best Defenses</h5>
-          <ul id="rank-defense" class="list-group"></ul>
-        </div>
-
-        <div class="col-lg-4">
-          <h5>Best Goal Difference</h5>
-          <ul id="rank-goaldiff" class="list-group"></ul>
-        </div>
-
+    <!-- League Table -->
+    <section class="section light-background">
+      <div class="container">
+        <h3>League Table</h3>
+        <div id="league_table"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <!-- Rankings -->
+    <section class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <h5>Top Scoring Teams</h5>
+            <ul id="rank-goals" class="list-group"></ul>
+          </div>
+          <div class="col-lg-4">
+            <h5>Best Defenses</h5>
+            <ul id="rank-defense" class="list-group"></ul>
+          </div>
+          <div class="col-lg-4">
+            <h5>Best Goal Difference</h5>
+            <ul id="rank-goaldiff" class="list-group"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-    <footer id="footer" class="footer accent-background">
-
+  <footer id="footer" class="footer accent-background">
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-about">
@@ -161,8 +115,7 @@
             <span class="sitename">FootData Lab</span>
           </a>
           <p>FootData Lab provides comprehensive insights into European football leagues and teams using open data. 
-          Explore detailed statistics, track league standings, analyze top-performing clubs, and access historical and current season data, all in one place. 
-          Our goal is to make football data accessible, informative, and engaging for fans, analysts, and researchers alike.</p>
+          Explore detailed statistics, track league standings, analyze top-performing clubs, and access historical and current season data, all in one place.</p>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
             <a href=""><i class="bi bi-facebook"></i></a>
@@ -170,7 +123,6 @@
             <a href=""><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
-
         <div class="col-lg-2 col-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
@@ -181,7 +133,6 @@
             <li><a href="#">Privacy policy</a></li>
           </ul>
         </div>
-
         <div class="col-lg-2 col-6 footer-links">
           <h4>Our Services</h4>
           <ul>
@@ -192,7 +143,6 @@
             <li><a href="#">Graphic Design</a></li>
           </ul>
         </div>
-
         <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
           <h4>Contact Us</h4>
           <p>Otaola Hiribidea 29</p>
@@ -201,27 +151,18 @@
           <p class="mt-4"><strong>Phone:</strong> <span>943 20 70 99</span></p>
           <p><strong>Email:</strong> <span>infofootdata@gmail.com</span></p>
         </div>
-
       </div>
     </div>
-
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">FootData Lab</strong> <span>All Rights Reserved</span></p>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
-
   </footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
@@ -233,7 +174,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  <script src="assets/js/javascript.js"></script>
 </body>
 
 </html>

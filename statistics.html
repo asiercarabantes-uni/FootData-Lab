@@ -76,6 +76,182 @@
       </div>
     </div><!-- End Page Title -->
 
+    <!-- Statistics Section -->
+<section id="statistics" class="section">
+
+  <div class="container">
+
+    <!-- Filters -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Filters</h5>
+        <div class="row g-3">
+
+          <div class="col-md-3">
+            <label class="form-label">League</label>
+            <select class="form-select">
+              <option selected>All leagues</option>
+              <option>La Liga</option>
+              <option>Premier League</option>
+              <option>Serie A</option>
+              <option>Bundesliga</option>
+              <option>Ligue 1</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Season</label>
+            <select class="form-select">
+              <option selected>All seasons</option>
+              <option>2016/17</option>
+              <option>2017/18</option>
+              <option>2018/19</option>
+              <option>2019/20</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Team</label>
+            <select class="form-select">
+              <option selected>All teams</option>
+            </select>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-primary w-100">
+              Apply filters
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- End Filters -->
+
+    <!-- KPIs -->
+    <div class="row mb-4">
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card text-center shadow-sm">
+          <div class="card-body">
+            <h6 class="text-muted">Matches</h6>
+            <h2>380</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card text-center shadow-sm">
+          <div class="card-body">
+            <h6 class="text-muted">Total Goals</h6>
+            <h2>1024</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card text-center shadow-sm">
+          <div class="card-body">
+            <h6 class="text-muted">Goals / Match</h6>
+            <h2>2.69</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card text-center shadow-sm">
+          <div class="card-body">
+            <h6 class="text-muted">Draws</h6>
+            <h2>92</h2>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End KPIs -->
+
+    <!-- Charts -->
+    <div class="row mb-4">
+
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Goals per Season</h5>
+            <div class="chart-container" style="height: 300px;">
+              <!-- Chart.js / ApexCharts -->
+              <canvas id="goalsSeasonChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Match Results</h5>
+            <div class="chart-container" style="height: 300px;">
+              <canvas id="resultsPieChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End Charts -->
+
+    <!-- Comparison Table -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Team Statistics</h5>
+
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Matches</th>
+                <th>Goals For</th>
+                <th>Goals Against</th>
+                <th>Goal Diff</th>
+                <th>Wins</th>
+                <th>Draws</th>
+                <th>Losses</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>FC Barcelona</td>
+                <td>38</td>
+                <td>90</td>
+                <td>36</td>
+                <td>+54</td>
+                <td>26</td>
+                <td>6</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>Real Madrid</td>
+                <td>38</td>
+                <td>88</td>
+                <td>41</td>
+                <td>+47</td>
+                <td>25</td>
+                <td>9</td>
+                <td>4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+    <!-- End Table -->
+
+  </div>
+
+</section>
+<!-- End Statistics Section -->
+
   </main>
 
     <footer id="footer" class="footer accent-background">
