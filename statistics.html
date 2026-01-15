@@ -13,7 +13,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,6 +26,7 @@
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.0/dist/chartjs-chart-matrix.min.js"></script>
 </head>
 
 <body class="statistics-page">
@@ -79,11 +80,6 @@
                 <label class="form-label">League</label>
                 <select id="league-filter" class="form-select">
                   <option selected>All leagues</option>
-                  <option>La Liga</option>
-                  <option>Premier League</option>
-                  <option>Serie A</option>
-                  <option>Bundesliga</option>
-                  <option>Ligue 1</option>
                 </select>
               </div>
 
@@ -91,10 +87,6 @@
                 <label class="form-label">Season</label>
                 <select id="season-filter" class="form-select">
                   <option selected>All seasons</option>
-                  <option>2016/17</option>
-                  <option>2017/18</option>
-                  <option>2018/19</option>
-                  <option>2019/20</option>
                 </select>
               </div>
 
@@ -105,9 +97,12 @@
                 </select>
               </div>
 
-              <div class="col-md-3 d-flex align-items-end">
+              <div class="col-md-3 d-flex align-items-end gap-2">
                 <button class="btn btn-primary w-100" id="apply-filters-btn">
                   Apply filters
+                </button>
+                <button class="btn btn-secondary flex-grow-1" id="reset-filters-btn">
+                  Reset
                 </button>
               </div>
 
@@ -125,8 +120,8 @@
           <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm h-100">
               <div class="card-body">
-                <h6 class="text-muted">Matches</h6>
-                <h2 id="kpi-matches">380</h2>
+                <h6 class="text-muted">Position</h6>
+                <h2 id="kpi-position">-</h2>
               </div>
             </div>
           </div>
@@ -134,17 +129,8 @@
           <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm h-100">
               <div class="card-body">
-                <h6 class="text-muted">Total Goals</h6>
-                <h2 id="kpi-goals">1024</h2>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h6 class="text-muted">Goals / Match</h6>
-                <h2 id="kpi-goals-match">2.69</h2>
+                <h6 class="text-muted">Wins</h6>
+                <h2 id="kpi-wins">-</h2>
               </div>
             </div>
           </div>
@@ -153,7 +139,52 @@
             <div class="card shadow-sm h-100">
               <div class="card-body">
                 <h6 class="text-muted">Draws</h6>
-                <h2 id="kpi-draws">92</h2>
+                <h2 id="kpi-draws">-</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Losses</h6>
+                <h2 id="kpi-losses">-</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Points</h6>
+                <h2 id="kpi-points">-</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Goals For</h6>
+                <h2 id="kpi-goals-for">-</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Goals Against</h6>
+                <h2 id="kpi-goals-against">-</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6 class="text-muted">Goals / Match</h6>
+                <h2 id="kpi-goals-match">-</h2>
               </div>
             </div>
           </div>
@@ -161,6 +192,7 @@
         </div>
       </div>
     </section>
+
 
     <!-- Charts & Trends -->
     <section class="section py-4">
@@ -174,9 +206,8 @@
 
               <!-- Dropdown de temporadas -->
               <div class="mb-3">
-                <label for="season-select-chart" class="form-label">Select league: </label>
                 <select id="season-select-chart" class="form-select w-auto d-inline">
-                  <!-- JS rellenará las temporadas disponibles -->
+                  <option selected disabled>-- Select league --</option>
                 </select>
               </div>
 
@@ -195,20 +226,29 @@
 
           <div class="col-lg-6">
             <div class="card shadow-sm h-100">
-              <div class="card-body" style="height: 300px; position: relative;">
-                <h5 class="card-title">Team Goals Trend</h5>
-                
-                <!-- Input de búsqueda para equipos -->
-                <input id="team-goals-input" class="form-control mb-3" type="text" placeholder="Search for a team...">
-                
-                <!-- Contenedor para sugerencias de autocompletado -->
-                <div id="team-suggestions" class="list-group position-absolute" style="z-index:1000;"></div>
-                
-                <!-- Canvas del gráfico -->
-                <canvas id="teamGoalsChart" style="height:300px;"></canvas>
+              <div class="card-body" style="height:350px; position:relative;">
+                <h5 class="card-title">Goals per Month</h5>
+
+                <div class="d-flex ">
+                  <div class="mb-3">
+                    <select id="league-select-h" class="form-select w-auto d-inline">
+                      <option selected disabled>-- Select league --</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3 mx-2">
+                    <select id="season-select-h" class="form-select w-auto d-inline">
+                      <option selected disabled>-- Select season --</option>
+                    </select>
+                  </div>
+                </div>
+               
+
+                <canvas id="goalsMonthChartH" style="width:100%; height:100%;"></canvas>
               </div>
             </div>
           </div>
+
 
           <!-- Extra chart idea: Average goals per match per season -->
           <div class="col-lg-6">
@@ -223,9 +263,9 @@
           <!-- Extra chart idea: Top scoring teams -->
           <div class="col-lg-6">
             <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Top Scoring Teams</h5>
-                <canvas id="topTeamsChart" style="height:300px;"></canvas>
+              <div class="card-body" style="position:relative; height:500px;">
+                <h5 class="card-title">Top Conceded Goals</h5>
+                <canvas id="mostConcededChart"></canvas>
               </div>
             </div>
           </div>
@@ -251,8 +291,9 @@
                 <input id="search-team-2" class="form-control mb-3" type="text" placeholder="Search for Team 2">
                 <div id="team2-suggestions" class="list-group" style="z-index:1000;"></div>
               </div>
-              <div class="col-md-2 d-flex align-items-end">
-                <button id="search-match-btn" class="btn btn-primary mb-3">Search</button>
+              <div class="col-md-2 d-flex align-items-end gap-2">
+                <button id="search-match-btn" class="btn btn-primary">Search</button>
+                <button id="reset-match-btn" class="btn btn-secondary w-100">Reset</button>  
               </div>
             </div>
 
