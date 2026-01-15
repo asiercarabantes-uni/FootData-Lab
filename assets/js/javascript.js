@@ -36,7 +36,12 @@ const canonicalNames = {
     'FC Bayern München': 'Bayern München',
     'Bor. Mönchengladbach': 'Borussia Mönchengladbach',
     'Wolverhampton Wanderers FC': 'Wolves',
-    'Wolverhampton Wanderers': 'Wolves'
+    'Wolverhampton Wanderers': 'Wolves',
+    'AS Monaco FC': 'AS Monaco',
+    'Olympique Marseille': 'Olympique de Marseille',
+    'Paris Saint-Germain FC': 'Paris Saint-Germain',
+    'RC Strasbourg Alsace': 'RC Strasbourg',
+    'Arsenal FC': 'Arsenal'
 }
 
 const leagueMap = {
@@ -922,9 +927,16 @@ async function searchMatches(team1, team2) {
 
     // Resumen centrado y más grande debajo
     html += `
-        <p class="fw-bold text-center mt-3" style="font-size:1.25rem;">
+        <div class="text-center mt-3 p-3 rounded" style="
+            background-color: #222;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: inline-block;
+            min-width: 220px;
+        ">
             ${team1} ${team1Wins} | ${draws} | ${team2Wins} ${team2}
-        </p>
+        </div>
     `;
 
     resultsContainer.innerHTML = html;
@@ -948,4 +960,114 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!t1 || !t2) return alert('Please select both teams');
         searchMatches(t1, t2);
     });
+});
+
+let avgGoalsChart;
+
+// Función para cargar los goles totales de todos los equipos
+let goalsPerTeamChart;
+
+async function loadGoalsPerTeam() {
+    const canvasContainer = document.getElementById('goalsPerTeam').parentElement;
+    
+    // Aseguramos que el contenedor tenga posición relativa y altura
+    canvasContainer.style.position = 'relative';
+    canvasContainer.style.height = '400px'; // puedes ajustar
+    
+    // Mostrar spinner mientras carga
+    canvasContainer.innerHTML += `
+        <div id="goals-team-spinner" class="text-center my-3">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    `;
+
+    const goalsMap = {}; // { teamName: totalGoals }
+    const leagueMapByTeam = {}; // opcional para colorear por liga después
+
+    for (const season of seasons) {
+        for (const league of leagues) {
+            const url = `https://raw.githubusercontent.com/openfootball/football.json/master/${season}/${league}.json`;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) continue;
+
+                const data = await res.json();
+                const matches = data.matches || [];
+
+                matches.forEach(match => {
+                    if (!match.score || !match.score.ft) return;
+
+                    const t1 = normalizeTeamName(match.team1);
+                    const t2 = normalizeTeamName(match.team2);
+
+                    const g1 = match.score.ft[0];
+                    const g2 = match.score.ft[1];
+
+                    goalsMap[t1] = (goalsMap[t1] || 0) + g1;
+                    goalsMap[t2] = (goalsMap[t2] || 0) + g2;
+
+                    // Guardamos liga de cada equipo
+                    if (!leagueMapByTeam[t1]) leagueMapByTeam[t1] = leagueMap[league] || league;
+                    if (!leagueMapByTeam[t2]) leagueMapByTeam[t2] = leagueMap[league] || league;
+                });
+
+            } catch(err) {
+                console.error("Error loading goals:", err);
+            }
+        }
+    }
+
+    // Ordenar y coger top 10
+    const topTeams = Object.entries(goalsMap)
+        .sort((a,b) => b[1]-a[1])
+        .slice(0,10);
+
+    const labels = topTeams.map(t => t[0]);
+    const values = topTeams.map(t => t[1]);
+
+    renderGoalsPerTeamChart(labels, values);
+
+    // Quitar spinner
+    const spinner = document.getElementById('goals-team-spinner');
+    if (spinner) spinner.remove();
+}
+
+function renderGoalsPerTeamChart(labels, values) {
+    const ctx = document.getElementById('goalsPerTeam').getContext('2d');
+
+    // Destruir si ya existía
+    if (goalsPerTeamChart) goalsPerTeamChart.destroy();
+
+    goalsPerTeamChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Goals Scored',
+                data: values,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // importante para controlar altura
+            plugins: {
+                legend: { display: false },
+                tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+                y: { beginAtZero: true },
+                x: { ticks: { autoSkip: false } }
+            }
+        }
+    });
+}
+
+// Inicializar al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    loadGoalsPerTeam();
 });
