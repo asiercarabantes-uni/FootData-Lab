@@ -66,6 +66,7 @@ FootData-Lab/
     ├── img/         # Argazkiak eta screenshotak
     └── vendor/      # Liburutegiak (Bootstrap, Swiper, AOS, etc.)
 
+```
 ---
 
 ## 🐞 Bugak eta murrizketak
@@ -77,7 +78,9 @@ Une honetan **ez da bug larririk detektatu**, baina **batzuetan grafikoren bat m
 Proiektu honetan erabilitako datuak **open data** dira, GitHub-eko biltegi publiko batetik eskuratuak.
 
 Datuen jatorria: 
+```text
 https://github.com/openfootball/football.json
+```
 
 Datuen egileei dagokien kreditu guztia aitortzen zaie.
 
@@ -88,5 +91,6 @@ Datuen egileei dagokien kreditu guztia aitortzen zaie.
    ```bash
    git clone https://github.com/asiercarabantes-uni/FootData-Lab.git
    cd FootData-Lab
+   ```
 
 2. Ireki index.html fitxategia nabigatzailean.
